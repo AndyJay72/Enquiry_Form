@@ -795,22 +795,27 @@
         // Make function globally available
         window.closeNotification = closeNotification;
 
-        // Add this to your form's JavaScript 
-            function sendHeightToParent() {
-                const height = document.documentElement.scrollHeight;
-                window.parent.postMessage({
-                    type: 'FORM_HEIGHT',
-                    height: height
-                }, 'https://grandunioncommunityhub.org.uk/home-sandbox/'); // Replace with your WordPress site URL
-            }
+function updateParentHeight() {
+    const height = document.documentElement.scrollHeight;
+    console.log('Sending height to parent:', height);
+    
+    window.parent.postMessage({
+        type: 'FORM_HEIGHT',
+        height: height
+    }, '*'); // Using '*' for testing, restrict to your domain later
+}
+
+            // Update height on various events
+            window.addEventListener('load', updateParentHeight);
+            window.addEventListener('resize', updateParentHeight);
             
-            // Send height when page loads and on resize
-            window.addEventListener('load', sendHeightToParent);
-            window.addEventListener('resize', sendHeightToParent);
+            // Update when form elements change
+            document.addEventListener('input', updateParentHeight);
+            document.addEventListener('change', updateParentHeight);
             
-            // Also send height after form interactions if needed
-            document.addEventListener('click', sendHeightToParent);
-            document.addEventListener('input', sendHeightToParent);   
+            // Also update after animations/transitions
+            setTimeout(updateParentHeight, 500);
+            setTimeout(updateParentHeight, 1000); 
 </script>
 </body>
 </html>
