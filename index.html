@@ -795,13 +795,13 @@
         // Make function globally available
         window.closeNotification = closeNotification;
 
-        // Add this to your form's JavaScript (before closing </script> tag)
+        // Add this to your form's JavaScript 
             function sendHeightToParent() {
                 const height = document.documentElement.scrollHeight;
                 window.parent.postMessage({
                     type: 'FORM_HEIGHT',
                     height: height
-                }, 'https://your-wordpress-site.com'); // Replace with your WordPress site URL
+                }, 'https://grandunioncommunityhub.org.uk/home-sandbox/'); // Replace with your WordPress site URL
             }
             
             // Send height when page loads and on resize
