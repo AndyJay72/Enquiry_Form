@@ -794,6 +794,23 @@
 
         // Make function globally available
         window.closeNotification = closeNotification;
-    </script>
+
+        // Add this to your form's JavaScript (before closing </script> tag)
+            function sendHeightToParent() {
+                const height = document.documentElement.scrollHeight;
+                window.parent.postMessage({
+                    type: 'FORM_HEIGHT',
+                    height: height
+                }, 'https://your-wordpress-site.com'); // Replace with your WordPress site URL
+            }
+            
+            // Send height when page loads and on resize
+            window.addEventListener('load', sendHeightToParent);
+            window.addEventListener('resize', sendHeightToParent);
+            
+            // Also send height after form interactions if needed
+            document.addEventListener('click', sendHeightToParent);
+            document.addEventListener('input', sendHeightToParent);   
+</script>
 </body>
 </html>
