@@ -16,7 +16,7 @@
             --text-light: #e0e7ff;
             --text-dark: #94a3b8;
             --border: rgba(255, 255, 255, 0.1);
-            --card-bg: rgba(26, 31, 58, 0.8);
+            --card-bg: rgba(26, 31, 58, 0.85);
         }
 
         * {
@@ -24,6 +24,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -32,16 +33,15 @@
             padding: 20px;
             position: relative;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Animated background grid */
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-image: 
                 linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
@@ -51,6 +51,7 @@
         }
 
         .form-container {
+            width: 100%;
             max-width: 800px;
             margin: 0 auto;
             position: relative;
@@ -64,34 +65,12 @@
             border: 1px solid var(--border);
             border-radius: 20px;
             color: white;
-            padding: 40px;
+            padding: 40px 20px;
             margin-bottom: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
-                        0 0 60px var(--accent-glow);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             position: relative;
             overflow: hidden;
             text-align: center;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 200%; }
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 1;
         }
 
         .header h1 {
@@ -106,12 +85,13 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
         .header h1 i {
             color: var(--accent);
-            filter: drop-shadow(0 0 10px var(--accent));
             -webkit-text-fill-color: var(--accent);
+            filter: drop-shadow(0 0 10px var(--accent));
         }
 
         .header p {
@@ -133,6 +113,7 @@
 
         .form-group {
             margin-bottom: 25px;
+            position: relative;
         }
 
         .form-group label {
@@ -150,11 +131,41 @@
             margin-left: 4px;
         }
 
+        /* Input Styling */
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        /* Left Icon */
+        .input-wrapper i.left-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            pointer-events: none;
+            font-size: 1.1rem;
+            z-index: 2;
+        }
+
+        /* Custom Dropdown Arrow */
+        .input-wrapper i.dropdown-arrow {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dark);
+            pointer-events: none;
+            font-size: 0.9rem;
+            z-index: 2;
+        }
+
         .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-group select {
             width: 100%;
             padding: 15px 20px;
+            padding-left: 45px; /* Space for left icon */
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -162,30 +173,27 @@
             font-size: 1rem;
             transition: all 0.3s ease;
             outline: none;
+            -webkit-appearance: none; 
+            appearance: none;
         }
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 20px var(--accent-glow);
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        .form-group input::placeholder {
-            color: var(--text-dark);
-        }
-
+        /* Specific padding for select to allow space for custom arrow */
         .form-group select {
+            padding-right: 40px;
             cursor: pointer;
         }
 
-        .form-group select option {
-            background: var(--primary);
-            color: var(--text-light);
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+            background: rgba(0, 0, 0, 0.5);
         }
 
-        /* Time and People Grid */
+        .form-group input::placeholder { color: var(--text-dark); }
+        .form-group select option { background: var(--primary); color: var(--text-light); }
+
+        /* Time Row - Responsive Grid */
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -194,10 +202,10 @@
 
         /* Info Box */
         .info-box {
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid var(--accent);
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
             border-radius: 12px;
-            padding: 15px 20px;
+            padding: 12px 16px;
             margin-top: 10px;
             color: var(--text-dark);
             font-size: 0.9rem;
@@ -205,34 +213,31 @@
             align-items: center;
             gap: 10px;
         }
+        .info-box i { color: var(--accent); }
 
-        .info-box i {
-            color: var(--accent);
-            font-size: 1.2rem;
-        }
-
+        /* Capacity Badges */
         .capacity-info {
             display: flex;
-            gap: 20px;
-            margin-top: 10px;
+            gap: 15px;
+            margin-top: 12px;
             flex-wrap: wrap;
         }
 
         .capacity-badge {
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 8px 16px;
+            padding: 8px 14px;
             color: var(--text-light);
             font-size: 0.85rem;
             display: flex;
             align-items: center;
             gap: 8px;
+            flex: 1;
+            justify-content: center;
+            min-width: 140px;
         }
-
-        .capacity-badge i {
-            color: var(--accent);
-        }
+        .capacity-badge i { color: var(--accent); }
 
         /* Submit Button */
         .submit-btn {
@@ -253,12 +258,13 @@
             justify-content: center;
             gap: 12px;
             box-shadow: 0 4px 20px var(--accent-glow);
+            margin-top: 10px;
         }
 
         .submit-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 30px var(--accent-glow);
-            background: var(--text-light);
+            background: #fff;
         }
 
         .submit-btn:disabled {
@@ -276,10 +282,7 @@
             animation: spin 1s linear infinite;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* Notification */
         .notification {
@@ -287,6 +290,7 @@
             top: 20px;
             right: 20px;
             max-width: 400px;
+            width: calc(100% - 40px);
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             border-radius: 15px;
@@ -295,121 +299,55 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            transform: translateX(500px);
-            transition: transform 0.4s ease;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 1000;
-            border: 1px solid;
+            border: 1px solid var(--border);
         }
 
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification.success {
-            border-color: var(--success);
-            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.3);
-        }
-
-        .notification.error {
-            border-color: var(--danger);
-            box-shadow: 0 8px 32px rgba(255, 51, 102, 0.3);
-        }
+        .notification.show { transform: translateX(0); }
+        .notification.success { border-color: var(--success); }
+        .notification.error { border-color: var(--danger); }
 
         .notification-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; flex-shrink: 0;
         }
 
-        .notification.success .notification-icon {
-            background: rgba(0, 255, 136, 0.2);
-            color: var(--success);
-        }
+        .notification.success .notification-icon { background: rgba(0, 255, 136, 0.2); color: var(--success); }
+        .notification.error .notification-icon { background: rgba(255, 51, 102, 0.2); color: var(--danger); }
 
-        .notification.error .notification-icon {
-            background: rgba(255, 51, 102, 0.2);
-            color: var(--danger);
-        }
-
-        .notification-content h3 {
-            color: var(--text-light);
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-
-        .notification-content p {
-            color: var(--text-dark);
-            font-size: 0.9rem;
-        }
+        .notification-content h3 { color: var(--text-light); font-size: 1rem; margin-bottom: 4px; }
+        .notification-content p { color: var(--text-dark); font-size: 0.9rem; line-height: 1.4; }
 
         .notification-close {
-            background: none;
-            border: none;
-            color: var(--text-dark);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            margin-left: auto;
+            background: none; border: none; color: var(--text-dark);
+            font-size: 1.2rem; cursor: pointer; padding: 5px;
+            margin-left: auto; transition: color 0.3s;
         }
+        .notification-close:hover { color: var(--text-light); }
 
-        .notification-close:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-light);
-        }
+        /* Error States */
+        .error-message { color: var(--danger); font-size: 0.85rem; margin-top: 8px; display: none; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .form-group.error input, .form-group.error select { border-color: var(--danger); }
+        .form-group.error .error-message { display: block; }
+        .form-group.error i.left-icon { color: var(--danger); }
 
-        /* Validation Error */
-        .error-message {
-            color: var(--danger);
-            font-size: 0.85rem;
-            margin-top: 8px;
-            display: none;
-        }
-
-        .form-group.error input,
-        .form-group.error select {
-            border-color: var(--danger);
-        }
-
-        .form-group.error .error-message {
-            display: block;
-        }
-
-        /* Responsive */
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8rem;
-                flex-direction: column;
-            }
+            body { padding: 10px; }
+            .header { padding: 30px 20px; }
+            .header h1 { font-size: 2rem; }
+            .form-card { padding: 25px 20px; }
+            .form-row { grid-template-columns: 1fr; gap: 20px; }
+        }
 
-            .form-card {
-                padding: 25px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .notification {
-                left: 20px;
-                right: 20px;
-                max-width: none;
-            }
-
-            .capacity-info {
-                flex-direction: column;
-            }
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.8rem; }
+            .capacity-badge { width: 100%; }
         }
     </style>
 </head>
@@ -422,7 +360,7 @@
                     <i class="fas fa-calendar-alt"></i>
                     Event Room Enquiry
                 </h1>
-                <p>Complete the form below to submit your event enquiry</p>
+                <p>Complete the form below to check availability</p>
             </div>
         </div>
 
@@ -431,88 +369,67 @@
             <form id="enquiryForm">
                 <!-- Name -->
                 <div class="form-group">
-                    <label for="name">
-                        Full Name
-                        <span class="required">*</span>
-                    </label>
-                    <input 
-                        type="text" 
-                        id="name" 
-                        name="name" 
-                        placeholder="Enter your full name"
-                        required
-                    >
+                    <label for="name">Full Name <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user left-icon"></i>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
                     <span class="error-message">Please enter your name</span>
                 </div>
 
                 <!-- Email -->
                 <div class="form-group">
-                    <label for="email">
-                        Email Address
-                        <span class="required">*</span>
-                    </label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        placeholder="your.email@example.com"
-                        required
-                    >
+                    <label for="email">Email Address <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope left-icon"></i>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    </div>
                     <span class="error-message">Please enter a valid email address</span>
                 </div>
 
                 <!-- Contact Number -->
                 <div class="form-group">
-                    <label for="contact">
-                        Contact Number
-                        <span class="required">*</span>
-                    </label>
-                    <input 
-                        type="tel" 
-                        id="contact" 
-                        name="contact" 
-                        placeholder="+44 7700 900000"
-                        required
-                    >
+                    <label for="contact">Contact Number <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-phone left-icon"></i>
+                        <input type="tel" id="contact" name="contact" placeholder="+44 7700 900000" required>
+                    </div>
                     <span class="error-message">Please enter your contact number</span>
                 </div>
 
                 <!-- Event Type -->
                 <div class="form-group">
-                    <label for="eventType">
-                        What event are you planning?
-                        <span class="required">*</span>
-                    </label>
-                    <select id="eventType" name="eventType" required>
-                        <option value="">Select event type...</option>
-                        <option value="Wedding">Wedding</option>
-                        <option value="Birthday Party">Birthday Party</option>
-                        <option value="Anniversary">Anniversary</option>
-                        <option value="Corporate Event">Corporate Event</option>
-                        <option value="Conference">Conference</option>
-                        <option value="Team Building">Team Building</option>
-                        <option value="Product Launch">Product Launch</option>
-                        <option value="Networking Event">Networking Event</option>
-                        <option value="Training Session">Training Session</option>
-                        <option value="Holiday Party">Holiday Party</option>
-                        <option value="Charity Event">Charity Event</option>
-                        <option value="Other">Other</option>
-                    </select>
+                    <label for="eventType">What event are you planning? <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-glass-cheers left-icon"></i>
+                        <select id="eventType" name="eventType" required>
+                            <option value="">Select event type...</option>
+                            <option value="Wedding">Wedding</option>
+                            <option value="Birthday Party">Birthday Party</option>
+                            <option value="Anniversary">Anniversary</option>
+                            <option value="Corporate Event">Corporate Event</option>
+                            <option value="Conference">Conference</option>
+                            <option value="Team Building">Team Building</option>
+                            <option value="Product Launch">Product Launch</option>
+                            <option value="Networking Event">Networking Event</option>
+                            <option value="Training Session">Training Session</option>
+                            <option value="Holiday Party">Holiday Party</option>
+                            <option value="Charity Event">Charity Event</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </div>
                     <span class="error-message">Please select an event type</span>
                 </div>
 
                 <!-- Event Date -->
                 <div class="form-group">
-                    <label for="eventDate">
-                        Select Date
-                        <span class="required">*</span>
-                    </label>
-                    <input 
-                        type="date" 
-                        id="eventDate" 
-                        name="eventDate" 
-                        required
-                    >
+                    <label for="eventDate">Select Date <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="far fa-calendar-alt left-icon"></i>
+                        <input type="date" id="eventDate" name="eventDate" required>
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </div>
                     <div class="info-box" id="availabilityMessage" style="display: none;">
                         <i class="fas fa-info-circle"></i>
                         <span>Date availability will be checked upon submission</span>
@@ -520,63 +437,53 @@
                     <span class="error-message">Please select a date</span>
                 </div>
 
-                <!-- Time From & To -->
+                <!-- TIME SECTION (UPDATED) -->
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="timeFrom">
-                            Time From (24hr)
-                            <span class="required">*</span>
-                        </label>
-                        <input 
-                            type="time" 
-                            id="timeFrom" 
-                            name="timeFrom" 
-                            required
-                        >
-                        <span class="error-message">Please select start time</span>
+                        <label for="timeFrom">Start Time <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="far fa-clock left-icon"></i>
+                            <select id="timeFrom" name="timeFrom" required>
+                                <option value="" disabled selected>Select start time</option>
+                                <!-- JS Populated -->
+                            </select>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </div>
+                        <span class="error-message">Select start time</span>
                     </div>
 
                     <div class="form-group">
-                        <label for="timeTo">
-                            Time To (24hr)
-                            <span class="required">*</span>
-                        </label>
-                        <input 
-                            type="time" 
-                            id="timeTo" 
-                            name="timeTo" 
-                            required
-                        >
-                        <span class="error-message">Please select end time</span>
+                        <label for="timeTo">End Time <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-clock left-icon"></i>
+                            <select id="timeTo" name="timeTo" required>
+                                <option value="" disabled selected>Select end time</option>
+                                <!-- JS Populated -->
+                            </select>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </div>
+                        <span class="error-message">Select end time</span>
                     </div>
                 </div>
 
                 <!-- Number of People -->
                 <div class="form-group">
-                    <label for="numPeople">
-                        Number of People
-                        <span class="required">*</span>
-                    </label>
-                    <input 
-                        type="number" 
-                        id="numPeople" 
-                        name="numPeople" 
-                        placeholder="Enter expected number of attendees"
-                        min="1"
-                        max="135"
-                        required
-                    >
+                    <label for="numPeople">Number of People <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-users left-icon"></i>
+                        <input type="number" id="numPeople" name="numPeople" placeholder="Total attendees" min="1" max="135" required>
+                    </div>
                     <div class="capacity-info">
                         <div class="capacity-badge">
                             <i class="fas fa-chair"></i>
                             <span>Max 120 Sitting</span>
                         </div>
                         <div class="capacity-badge">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-user-friends"></i>
                             <span>Max 135 Standing</span>
                         </div>
                     </div>
-                    <span class="error-message">Please enter number of people (1-135)</span>
+                    <span class="error-message">Enter number of people (1-135)</span>
                 </div>
 
                 <!-- Submit Button -->
@@ -603,10 +510,44 @@
     </div>
 
     <script>
-        // Set minimum date to today
-        document.getElementById('eventDate').min = new Date().toISOString().split('T')[0];
+        // --- POPULATE TIME DROPDOWNS ---
+        function populateTimeDropdowns() {
+            const timeFrom = document.getElementById('timeFrom');
+            const timeTo = document.getElementById('timeTo');
+            const startHour = 8;
+            const endHour = 23;
 
-        // Show availability message when date is selected
+            // Generate time slots every 30 mins
+            for (let hour = startHour; hour <= endHour; hour++) {
+                // Add :00
+                addOption(timeFrom, hour, '00');
+                addOption(timeTo, hour, '00');
+
+                // Add :30 (skip 23:30 if you want hard stop at 23:00, but usually useful to allow end)
+                if (hour < endHour) {
+                    addOption(timeFrom, hour, '30');
+                    addOption(timeTo, hour, '30');
+                }
+            }
+        }
+
+        function addOption(selectElement, hour, minute) {
+            const formattedHour = hour.toString().padStart(2, '0');
+            const timeValue = `${formattedHour}:${minute}`;
+            
+            // Format display label (e.g. 08:00 AM/PM if desired, keeping 24h for now as per design)
+            const option = document.createElement('option');
+            option.value = timeValue;
+            option.text = timeValue;
+            selectElement.add(option);
+        }
+
+        // Initialize time dropdowns
+        populateTimeDropdowns();
+
+
+        // --- DATE LOGIC ---
+        document.getElementById('eventDate').min = new Date().toISOString().split('T')[0];
         document.getElementById('eventDate').addEventListener('change', function() {
             const availabilityMsg = document.getElementById('availabilityMessage');
             if (this.value) {
@@ -614,7 +555,7 @@
             }
         });
 
-        // Form validation
+        // --- VALIDATION LOGIC ---
         function validateForm() {
             let isValid = true;
             const form = document.getElementById('enquiryForm');
@@ -623,12 +564,22 @@
             // Remove previous error states
             formGroups.forEach(group => group.classList.remove('error'));
 
-            // Name validation
-            const name = document.getElementById('name');
-            if (!name.value.trim()) {
-                name.closest('.form-group').classList.add('error');
-                isValid = false;
-            }
+            // Helper to validate generic fields
+            const validateField = (id) => {
+                const field = document.getElementById(id);
+                if (!field.value.trim()) {
+                    field.closest('.form-group').classList.add('error');
+                    return false;
+                }
+                return true;
+            };
+
+            isValid &= validateField('name');
+            isValid &= validateField('contact');
+            isValid &= validateField('eventType');
+            isValid &= validateField('eventDate');
+            isValid &= validateField('timeFrom');
+            isValid &= validateField('timeTo');
 
             // Email validation
             const email = document.getElementById('email');
@@ -638,44 +589,25 @@
                 isValid = false;
             }
 
-            // Contact validation
-            const contact = document.getElementById('contact');
-            if (!contact.value.trim()) {
-                contact.closest('.form-group').classList.add('error');
-                isValid = false;
-            }
-
-            // Event type validation
-            const eventType = document.getElementById('eventType');
-            if (!eventType.value) {
-                eventType.closest('.form-group').classList.add('error');
-                isValid = false;
-            }
-
-            // Date validation
-            const eventDate = document.getElementById('eventDate');
-            if (!eventDate.value) {
-                eventDate.closest('.form-group').classList.add('error');
-                isValid = false;
-            }
-
-            // Time validation
+            // Time logic validation (End > Start)
             const timeFrom = document.getElementById('timeFrom');
             const timeTo = document.getElementById('timeTo');
-            if (!timeFrom.value) {
-                timeFrom.closest('.form-group').classList.add('error');
-                isValid = false;
-            }
-            if (!timeTo.value) {
-                timeTo.closest('.form-group').classList.add('error');
-                isValid = false;
-            }
+            
+            if (timeFrom.value && timeTo.value) {
+                // Convert "HH:MM" string to comparable integers
+                const start = parseInt(timeFrom.value.replace(':', ''));
+                const end = parseInt(timeTo.value.replace(':', ''));
 
-            // Time logic validation
-            if (timeFrom.value && timeTo.value && timeFrom.value >= timeTo.value) {
-                timeTo.closest('.form-group').classList.add('error');
-                timeTo.closest('.form-group').querySelector('.error-message').textContent = 'End time must be after start time';
-                isValid = false;
+                if (start >= end) {
+                    timeTo.closest('.form-group').classList.add('error');
+                    const errorMsg = timeTo.closest('.form-group').querySelector('.error-message');
+                    errorMsg.textContent = 'End time must be after start time';
+                    isValid = false;
+                } else {
+                    // Reset error message text just in case
+                    const errorMsg = timeTo.closest('.form-group').querySelector('.error-message');
+                    errorMsg.textContent = 'Select end time';
+                }
             }
 
             // Number of people validation
@@ -686,14 +618,13 @@
                 isValid = false;
             }
 
-            return isValid;
+            return Boolean(isValid);
         }
 
-        // n8n Webhook Configuration
+        // --- SUBMISSION LOGIC ---
         // TODO: Replace with your actual n8n webhook URL
         const N8N_WEBHOOK_URL = 'https://n8n.srv1090894.hstgr.cloud/webhook/form';
 
-        // Submit to n8n webhook
         async function submitToN8N(data) {
             const response = await fetch(N8N_WEBHOOK_URL, {
                 method: 'POST',
@@ -706,11 +637,9 @@
             if (!response.ok) {
                 throw new Error(`Submission failed: ${response.status}`);
             }
-            
             return await response.json();
         }
 
-        // Form submission
         document.getElementById('enquiryForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -743,7 +672,7 @@
                 await submitToN8N(formData);
                 
                 // Show success notification
-                showNotification('success', 'Success!', 'Your enquiry has been submitted successfully. We\'ll get back to you soon!');
+                showNotification('success', 'Success!', 'Your enquiry has been submitted successfully.');
                 
                 // Reset form
                 document.getElementById('enquiryForm').reset();
@@ -752,7 +681,7 @@
             } catch (error) {
                 console.error('Submission error:', error);
                 // Show error notification
-                showNotification('error', 'Submission Failed', 'There was an error submitting your enquiry. Please try again or contact us directly.');
+                showNotification('error', 'Submission Failed', 'Error submitting your enquiry. Please try again.');
             } finally {
                 // Re-enable button
                 submitBtn.disabled = false;
@@ -760,41 +689,33 @@
             }
         });
 
-        // Show notification
+        // --- NOTIFICATION SYSTEM ---
         function showNotification(type, title, message) {
             const notification = document.getElementById('notification');
             const icon = notification.querySelector('.notification-icon i');
             const titleEl = notification.querySelector('.notification-content h3');
             const messageEl = notification.querySelector('.notification-content p');
 
-            // Update notification content
             notification.className = `notification ${type}`;
             titleEl.textContent = title;
             messageEl.textContent = message;
 
-            // Update icon
             if (type === 'success') {
                 icon.className = 'fas fa-check-circle';
             } else {
                 icon.className = 'fas fa-exclamation-circle';
             }
 
-            // Show notification
             setTimeout(() => notification.classList.add('show'), 100);
-
-            // Auto-hide after 5 seconds
             setTimeout(() => closeNotification(), 5000);
         }
 
-        // Close notification
         function closeNotification() {
             const notification = document.getElementById('notification');
             notification.classList.remove('show');
         }
 
-        // Make function globally available
         window.closeNotification = closeNotification;
- 
-</script>
+    </script>
 </body>
 </html>
